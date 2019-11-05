@@ -103,6 +103,9 @@ namespace EscPos
             }
         }
 
+        /// <summary>
+        /// Reset the printer
+        /// </summary>
         public void Reset()
         {
             print.Write(ESC + "@");
