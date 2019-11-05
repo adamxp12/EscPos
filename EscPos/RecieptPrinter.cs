@@ -234,7 +234,7 @@ namespace EscPos
         /// </summary>
         public void PrintLogo()
         {
-            Write(imageTools.GetLogo2());
+            Write(ImageTools.GetLogo2());
         }
     }
 }
