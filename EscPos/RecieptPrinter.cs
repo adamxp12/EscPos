@@ -18,6 +18,27 @@ namespace EscPos
             right = 2
         }
 
+        public enum ModeType
+        {
+            FontA = 0,
+            FontB = 1,
+            Emphasized = 8,
+            DoubleHeight = 16,
+            DoubleWdith = 32,
+            Underline = 128
+        }
+
+        public enum FontType
+        {
+            FontA = 0,
+            FontB = 1,
+            FontC = 2,
+            FontD = 3,
+            FontE = 4,
+            SpecialFontA = 97,
+            SpecialFontB = 98
+        }
+
         public enum DrawType
         {
             Pin2 = 0,
@@ -82,6 +103,11 @@ namespace EscPos
             }
         }
 
+        public void Reset()
+        {
+            print.Write(ESC + "@");
+        }
+
         /// <summary>
         /// Write a line to the RecieptPrinter buffer
         /// </summary>
@@ -121,7 +147,7 @@ namespace EscPos
         /// <summary>
         /// Flush the buffer out to the printer
         /// </summary>
-        public void flush()
+        public void Flush()
         {
             print.Write(sb);
             sb = new List<String>();
@@ -169,6 +195,119 @@ namespace EscPos
             int conv = int.Parse(n.ToString(), NumberStyles.HexNumber);
             Write(ESC + "d" + ((char)conv));
         }
+
+
+        /// <summary>
+        /// Set the font
+        /// </summary>
+        /// <param name="mT">Which mode to use</param>
+        public void Mode(ModeType mT)
+        {
+            switch (mT)
+            {
+                case ModeType.FontA:
+                    Write(ESC + "!" + ((char)(int)ModeType.FontA));
+                    break;
+                case ModeType.FontB:
+                    Write(ESC + "!" + ((char)(int)ModeType.FontB));
+                    break;
+                case ModeType.Emphasized:
+                    Write(ESC + "!" + ((char)(int)ModeType.Emphasized));
+                    break;
+                case ModeType.DoubleHeight:
+                    Write(ESC + "!" + ((char)(int)ModeType.DoubleHeight));
+                    break;
+                case ModeType.DoubleWdith:
+                    Write(ESC + "!" + ((char)(int)ModeType.DoubleWdith));
+                    break;
+                case ModeType.Underline:
+                    Write(ESC + "!" + ((char)(int)ModeType.Underline));
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Underline text
+        /// </summary>
+        /// <param name="b"></param>
+        public void Underline(bool b)
+        {
+            if (b) Write(ESC + "-" + ((char)'\x01'));
+            if (!b) Write(ESC + "-" + ((char)'\x00'));
+        }
+
+        /// <summary>
+        /// Emphasize text
+        /// </summary>
+        /// <param name="b"></param>
+        public void Emphasized(bool b)
+        {
+            if (b) Write(ESC + "E" + ((char)'\x01'));
+            if (!b) Write(ESC + "E" + ((char)'\x00'));
+        }
+
+        /// <summary>
+        /// Double Strike text
+        /// </summary>
+        /// <param name="b"></param>
+        public void DoubleStrike(bool b)
+        {
+            if (b) Write(ESC + "G" + ((char)'\x01'));
+            if (!b) Write(ESC + "G" + ((char)'\x00'));
+        }
+
+        /// <summary>
+        /// Set the font
+        /// </summary>
+        /// <param name="fT"></param>
+        public void SetFont(FontType fT)
+        {
+            switch (fT)
+            {
+                case FontType.FontA:
+                    Write(ESC + "M" + ((char)(int)FontType.FontA));
+                    break;
+                case FontType.FontB:
+                    Write(ESC + "M" + ((char)(int)FontType.FontB));
+                    break;
+                case FontType.FontC:
+                    Write(ESC + "M" + ((char)(int)FontType.FontC));
+                    break;
+                case FontType.FontD:
+                    Write(ESC + "M" + ((char)(int)FontType.FontD));
+                    break;
+                case FontType.FontE:
+                    Write(ESC + "M" + ((char)(int)FontType.FontE));
+                    break;
+                case FontType.SpecialFontA:
+                    Write(ESC + "M" + ((char)(int)FontType.SpecialFontA));
+                    break;
+                case FontType.SpecialFontB:
+                    Write(ESC + "M" + ((char)(int)FontType.SpecialFontB));
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Print in reverse color
+        /// </summary>
+        /// <param name="b"></param>
+        public void ReversePrint(bool b)
+        {
+            if (b) Write(GS + "B" + ((char)'\x01'));
+            if (!b) Write(GS + "B" + ((char)'\x00'));
+        }
+
+        /// <summary>
+        /// Switch to a secondary color if supported
+        /// </summary>
+        /// <param name="b"></param>
+        public void SetColor(bool b)
+        {
+            if (b) Write(ESC + "r" + ((char)'\x01'));
+            if (!b) Write(ESC + "r" + ((char)'\x00'));
+        }
+
 
         /// <summary>
         /// Open Cash Drawer
