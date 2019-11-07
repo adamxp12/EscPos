@@ -190,6 +190,30 @@ namespace EscPos
         }
 
         /// <summary>
+        /// Print a PDF417 2D barcode
+        /// </summary>
+        /// <param name="data">barcode data</param>
+        public void PDF417(String data)
+        {
+            int pL = (data.Length + 3) % 256;
+            int pH = (data.Length + 3) / 256;
+            Write(GS + "(k" + ((char)pL) + ((char)pH) + '\x30' + '\x50' + '\x30' + data);
+            Write(GS + "(k" + '\x03' + '\x00' + '\x30' + '\x51' + '\x30');
+        }
+
+        /// <summary>
+        /// Print a QrCode 2D barcode
+        /// </summary>
+        /// <param name="data">barcode data</param>
+        public void QrCode(String data)
+        {
+            int pL = (data.Length + 3) % 256;
+            int pH = (data.Length + 3) / 256;
+            Write(GS + "(k" + ((char)pL) + ((char)pH) + '\x31' + '\x50' + '\x30' + data);
+            Write(GS + "(k" + '\x03' + '\x00' + '\x31' + '\x51' + '\x30');
+        }
+
+        /// <summary>
         /// Feed lines
         /// </summary>
         /// <param name="n">Amount of lines to feed</param>
