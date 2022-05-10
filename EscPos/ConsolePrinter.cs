@@ -12,9 +12,10 @@ namespace EscPos
             Console.WriteLine("Printer Closed");
         }
 
-        public void Init()
+        public bool Init()
         {
             Console.WriteLine("Printer Init");
+            return true;
         }
 
         public bool IsOpen()

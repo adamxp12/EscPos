@@ -54,12 +54,12 @@ namespace EscPos
         /// </summary>
         /// <param name="pT">a PrinterInterface object to use</param>
         /// <param name="iPole">Boolean if inline pole display is in use for Serial only</param>
-        public void Init(PrinterInterface pT, Boolean iPole)
+        public bool Init(PrinterInterface pT, Boolean iPole)
         {
             print = pT;
-            print.Init();
             inlinePole = iPole;
             sb = new List<String>();
+            return print.Init();
         }
 
         /// <summary>
@@ -78,6 +78,23 @@ namespace EscPos
         public void Close()
         {
             print.Close();
+        }
+        
+        [System.Obsolete("Not fully implemented. Will start a loop that will log the data to console")]
+        public void Read()
+        {
+            // if print is tcpPrinter
+            if (print.GetType() == typeof(tcpPrinter))
+            {
+                Console.WriteLine("Waiting for data...");
+                tcpPrinter tcp = (tcpPrinter)print;
+                tcp.Read();
+            }
+        }
+
+        public void RequestStatus()
+        {
+            print.Write("\x1D" + "\x72" + "\x01");
         }
 
         /// <summary>

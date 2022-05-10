@@ -24,7 +24,7 @@ namespace EscPos
         }
 
 
-        public void Init()
+        public bool Init()
         {
             try
             {
@@ -32,11 +32,13 @@ namespace EscPos
                 sPrint.BaudRate = baudRate;
                 sPrint.Open();
                 sPrint.RtsEnable = true;
+                return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error enabling printer");
-                Console.WriteLine(ex);
+                return false;
+                //MessageBox.Show(ex.Message, "Error enabling printer");
+                //Console.WriteLine(ex);
             }
         }
 

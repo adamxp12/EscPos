@@ -62,11 +62,12 @@ namespace EscPos
             pName = classPName;
         }
 
-        public void Init()
+        public bool Init()
         {
             //fo = new Font("Lucida Console", 10);
             //pDoc = new PrintDocument();
             printer = new IntPtr();
+            return true;
             //pDoc.PrinterSettings.PrinterName = pName;
             //pDoc.PrintPage += new PrintPageEventHandler(this.PrintTextFileHandler);
         }
